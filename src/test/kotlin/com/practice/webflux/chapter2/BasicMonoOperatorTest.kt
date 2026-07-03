@@ -36,9 +36,9 @@ class BasicMonoOperatorTest {
     }
 
     @Test
-    @DisplayName("하나의 데이터 흐름에서 여러 개의 데이터 흐름으로 바꾸고 싶을 때")
+    @DisplayName("flatMapMany")
     fun monoToFlux() {
-        //flatMapMany
+        //flatMapMany -> Mono에서 Flux 변환
         val one = Mono.just(1)
         val intFlux = one.flatMapMany { Flux.just(it, it + 1, it + 2) }
         intFlux.subscribe { println("data = $it") }
