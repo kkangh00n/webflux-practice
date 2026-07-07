@@ -6,7 +6,7 @@ import com.practice.webflux.chapter3.application.dto.UserChatRequestDto
 data class LlmChatRequestDto(
     var userRequest: String,
     var systemPrompt: String,
-    var useJson: Boolean = true,
+    var useJson: Boolean? = null,
     var llmModel: LlmModel
 ) {
     constructor(

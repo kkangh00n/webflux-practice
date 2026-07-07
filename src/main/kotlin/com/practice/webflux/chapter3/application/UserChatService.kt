@@ -6,12 +6,11 @@ import com.practice.webflux.chapter3.client.dto.LlmChatRequestDto
 import com.practice.webflux.chapter3.client.dto.LlmChatResponseDto
 import com.practice.webflux.chapter3.application.dto.UserChatRequestDto
 import com.practice.webflux.chapter3.application.dto.UserChatResponseDto
-import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Service
-@RequiredArgsConstructor
 class UserChatService(
     private val llmWebClientServiceMap: Map<LlmType, LlmWebClient>
 ) {
@@ -20,6 +19,13 @@ class UserChatService(
         val llmChatRequestDto = LlmChatRequestDto(userChatRequestDto, "요청에 적절히 응답해주세요.")
         val chatCompletionMono: Mono<LlmChatResponseDto> = llmWebClientServiceMap.getValue(llmChatRequestDto.llmModel.llmType)
             .getChatCompletion(llmChatRequestDto)
+        return chatCompletionMono.map{ UserChatResponseDto(it) }
+    }
+
+    fun getOneShotChatStream(userChatRequestDto: UserChatRequestDto): Flux<UserChatResponseDto> {
+        val llmChatRequestDto = LlmChatRequestDto(userChatRequestDto, "요청에 적절히 응답해주세요.")
+        val chatCompletionMono: Flux<LlmChatResponseDto> = llmWebClientServiceMap.getValue(llmChatRequestDto.llmModel.llmType)
+            .getChatCompletionStream(llmChatRequestDto)
         return chatCompletionMono.map{ UserChatResponseDto(it) }
     }
 }

@@ -16,6 +16,6 @@ data class GeminiChatRequestDto(
             GeminiContent(listOf(GeminiPart(llmChatRequestDto.userRequest)), GeminiMessageRole.USER)
         ),
         systemInstruction = GeminiContent(listOf(GeminiPart(llmChatRequestDto.userRequest))),
-        generationConfig = if (llmChatRequestDto.useJson) GeminiGenerationConfigDto() else null
+        generationConfig = if (llmChatRequestDto.useJson != null || llmChatRequestDto.useJson == true) GeminiGenerationConfigDto() else null
     )
 }
