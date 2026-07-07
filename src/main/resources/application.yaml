@@ -1,3 +1,13 @@
 spring:
   application:
     name: webflux
+
+logging:
+  level:
+    root: INFO
+
+llm:
+  gpt:
+    key: ${OPENAI_API_KEY}
+  gemini:
+    key: ${GEMINI_API_KEY}
