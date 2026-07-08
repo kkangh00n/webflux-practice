@@ -1,9 +1,9 @@
 package com.practice.webflux.chapter3.presentation
 
+import com.practice.webflux.chapter3.application.ChainOfThoughtService
 import com.practice.webflux.chapter3.application.UserChatService
 import com.practice.webflux.chapter3.application.dto.UserChatRequestDto
 import com.practice.webflux.chapter3.application.dto.UserChatResponseDto
-import lombok.RequiredArgsConstructor
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -15,7 +15,8 @@ import reactor.core.publisher.Mono
 @RestController
 @RequestMapping("/chat")
 class UserChatController(
-    private val userChatService: UserChatService
+    private val userChatService: UserChatService,
+    private val chainOfThoughtService: ChainOfThoughtService
 ) {
 
     // application/json 형태 응답
@@ -32,5 +33,11 @@ class UserChatController(
     @PostMapping("/oneshot/stream", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     fun oneShotChatStream(@RequestBody userChatRequestDto: UserChatRequestDto): Flux<UserChatResponseDto> {
         return userChatService.getOneShotChatStream(userChatRequestDto)
+    }
+
+    @PostMapping("/cot", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    fun chainOfThought(@RequestBody userChatRequestDto: UserChatRequestDto): Flux<UserChatResponseDto> {
+        //서비스에서 request가공해서 response돌려줘야함.
+        return chainOfThoughtService.getChainOfThoughtResponse(userChatRequestDto)
     }
 }

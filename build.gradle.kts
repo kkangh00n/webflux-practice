@@ -32,6 +32,7 @@ dependencies {
 	testCompileOnly("org.projectlombok:lombok")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testAnnotationProcessor("org.projectlombok:lombok")
+    implementation ("io.github.oshai:kotlin-logging-jvm:7.0.4")
 }
 
 kotlin {
